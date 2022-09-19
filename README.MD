@@ -1,4 +1,7 @@
 # Ignite Timer
+
+[Imagem da home page do Ignite Timer - Teste](https://imgur.com/XVZ8YWw)
+
 ## Versão BR
 
 Projeto criado durante a minha jornada de aprendizado dentro do **ignite da rocketseat**.
