@@ -1,6 +1,6 @@
 # Ignite Timer
 
-[Imagem da home page do Ignite Timer - Teste](https://imgur.com/XVZ8YWw)
+![Imagem da home page do Ignite Timer - Teste](https://imgur.com/XVZ8YWw)
 
 ## Versão BR
 
