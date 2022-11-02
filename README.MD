@@ -18,7 +18,7 @@ Em nossas atividades diárias, temos muitas coisas a fazer, dentre elas acabamos
 
 This project is created while my journey of learning in **Ignite of Rocketseat**.
 
-In our daily routines, we need somethings for do, lost vision of time when need focus in our specific activities. However we need to focus in specifics tasks for produce better a long of day, therefore we need to know where invest our time and the **Ignite Timer** will help us with this.
+In our daily routines, we need somethings to do, lost vision of time when need focus in our specific activities. However we need to focus in specifics tasks for produce better a long of day, therefore we need to know where invest our time and the **Ignite Timer** will help us with this.
 
 **Technologies used:**
 1. HTML; 
