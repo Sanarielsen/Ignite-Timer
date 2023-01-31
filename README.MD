@@ -2,10 +2,11 @@
 
 ![Imgur](https://i.imgur.com/XVZ8YWw.png)
 
-## Versão BR
-
 ### Dependencias instaladas:
 React Hook Form (npm i react-hook-form)
+Date-FNS (npm i date-fns)
+
+## Versão BR
 
 Projeto criado durante a minha jornada de aprendizado dentro do **ignite da rocketseat**.
 
