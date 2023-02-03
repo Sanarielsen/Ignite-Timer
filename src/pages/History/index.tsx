@@ -31,7 +31,6 @@ export function History() {
             <tbody>              
               {cycles.map((cycle) => {
 
-                console.log(cycle)
                 return (
 
                   <tr key={cycle.id}>
