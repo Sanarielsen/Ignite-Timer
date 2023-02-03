@@ -3,8 +3,9 @@
 ![Imgur](https://i.imgur.com/XVZ8YWw.png)
 
 ### Dependencias instaladas:
-React Hook Form (npm i react-hook-form)
-Date-FNS (npm i date-fns)
++ React Hook Form (npm i react-hook-form)
++ Date-FNS (npm i date-fns)
++ immer (npm i immer)
 
 ## Versão BR
 
