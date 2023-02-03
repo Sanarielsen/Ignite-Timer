@@ -33,7 +33,7 @@ export function Countdown() {
           new Date(), 
           new Date(activeCycle.startDate)
         )
-
+        console.log("Diferença: ", secondsDifference, " Total: ", totalSeconds)        
         if (secondsDifference >= totalSeconds) {
           markCurrentCycleAsFinished()
           setSecondsPassed(totalSeconds)

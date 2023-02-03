@@ -33,7 +33,7 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
     cycles: [], activeCycleId: null 
   }, () => {
     const storedStateAsJSON = localStorage.getItem('@Ignite-Timer:cyclesState')
-
+    
     if (storedStateAsJSON) {
       return JSON.parse(storedStateAsJSON)
     }
