@@ -1,17 +1,34 @@
 import { useContext } from "react";
-import { HistoryContainer, HistoryList, Status } from "./styles";
+import { HistoryButtonReset, HistoryContainer, HistoryContainerHeader, HistoryList, HistoryTitleHeader, Status } from "./styles";
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 
 export function History() {
-  const { cycles } = useContext(CyclesContext)
+  const { cycles, deleteListOfCycles } = useContext(CyclesContext)
 
+  const haveCycles = cycles.length;
+
+  function handleCyclesRemove() {
+
+    deleteListOfCycles()
+  }
+  
   return (
     
     <HistoryContainer>
-      
-      <h1> Meu histórico </h1>
+
+      <HistoryContainerHeader> 
+        <HistoryTitleHeader> Meu histórico </HistoryTitleHeader> 
+        <HistoryButtonReset 
+          type="button"
+          disabled={!(haveCycles > 0)}
+          onClick={handleCyclesRemove}
+        >
+
+          Reset History
+        </HistoryButtonReset>
+      </HistoryContainerHeader>
       
       <HistoryList>
       

@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from 'react'
-import { Cycle, cyclesReducer } from '../reducers/cycles/reducer';
-import { addNewCycleAction, interruptCurrentCycleAction, markCurrentCycleAsFinishedAction } from '../reducers/cycles/actions';
+import { Cycle, CycleState, cyclesReducer } from '../reducers/cycles/reducer';
+import { addNewCycleAction, deleteListOfCyclesAction, initializeListOfCycleAction, interruptCurrentCycleAction, markCurrentCycleAsFinishedAction } from '../reducers/cycles/actions';
 import { differenceInSeconds } from 'date-fns';
 
 interface CreateCycleData {
@@ -11,14 +11,15 @@ interface CreateCycleData {
 
 interface CyclesContextType {
 
-  cycles: Cycle[]
-  activeCycle: Cycle | undefined;
-  activeCycleId: string | null;
-  amountSecondsPassed: number;
-  markCurrentCycleAsFinished: () => void;
-  setSecondsPassed: (seconds: number) => void
-  createNewCycle: (data: CreateCycleData) => void
-  interruptCurrentCycle: () => void
+  cycles: Cycle[],
+  activeCycle: Cycle | undefined,
+  activeCycleId: string | null,
+  amountSecondsPassed: number,
+  markCurrentCycleAsFinished: () => void,
+  setSecondsPassed: (seconds: number) => void,
+  createNewCycle: (data: CreateCycleData) => void,
+  interruptCurrentCycle: () => void,
+  deleteListOfCycles: () => void,
 }
 
 export const CyclesContext = createContext({} as CyclesContextType)
@@ -32,9 +33,20 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
   const [cyclesState, dispatch] = useReducer(cyclesReducer, { 
     cycles: [], activeCycleId: null 
   }, () => {
+    if (!Boolean(localStorage.getItem('@Ignite-Timer:cyclesState'))) {           
+      const current = {
+        cycles: [],
+        activeCycleId: null
+      } as CycleState 
+
+      const stateJSON = JSON.stringify(current)
+      localStorage.setItem('@Ignite-Timer:cyclesState', stateJSON)      
+    }
+
     const storedStateAsJSON = localStorage.getItem('@Ignite-Timer:cyclesState')
     
     if (storedStateAsJSON) {
+      
       return JSON.parse(storedStateAsJSON)
     }
   })
@@ -58,7 +70,7 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
     const stateJSON = JSON.stringify(cyclesState)
 
     localStorage.setItem('@Ignite-Timer:cyclesState', stateJSON)
-  })  
+  }, [cyclesState])  
 
   function markCurrentCycleAsFinished() {
 
@@ -68,6 +80,11 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
   function setSecondsPassed(seconds: number) {
   
     setAmountSecondsPassed(seconds)
+  }
+
+  function initializeListOfCycle() {
+    
+    initializeListOfCycleAction();
   }
 
   function createNewCycle(data: CreateCycleData) {
@@ -83,11 +100,16 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
     dispatch(addNewCycleAction(newCycle));
 
     setAmountSecondsPassed(0)
-  }  
+  }
 
   function interruptCurrentCycle() {
 
     dispatch(interruptCurrentCycleAction());  
+  }
+
+  function deleteListOfCycles() {
+
+    dispatch(deleteListOfCyclesAction());
   }
 
   return (
@@ -101,6 +123,7 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
         setSecondsPassed,
         createNewCycle,
         interruptCurrentCycle,
+        deleteListOfCycles,
       }}
     >
       {children}

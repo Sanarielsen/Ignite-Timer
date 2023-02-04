@@ -12,7 +12,7 @@ export interface Cycle {
   finishedDate?: Date;
 }
 
-interface CycleState {
+export interface CycleState {
 
   cycles: Cycle[],
   activeCycleId: string | null,
@@ -20,8 +20,18 @@ interface CycleState {
 
 export function cyclesReducer(state: CycleState, action: any) {
 
-  switch( action.type ) {
+  switch( action.type ) {    
 
+    case ActionTypes.INITIALIZE_LIST_OF_CYCLES: {
+
+      const stateNull = {} as CycleState
+
+      return produce(state, draft => {
+
+        draft.cycles.splice(0,draft.cycles.length)
+        draft.activeCycleId = null
+      })
+    }
     case ActionTypes.ADD_NEW_CYCLE:
       return produce(state, draft => {
         draft.cycles.push(action.payload.newCycle);
@@ -53,6 +63,13 @@ export function cyclesReducer(state: CycleState, action: any) {
 
         draft.activeCycleId = null
         draft.cycles[currentCycleIndex].finishedDate = new Date();
+      })
+    }
+    case ActionTypes.DELETE_LIST_OF_CYCLES: {
+
+      return produce(state, (draft) => {
+
+        draft.cycles = [];
       })
     }
     default:
