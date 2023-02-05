@@ -3,31 +3,35 @@ import { HistoryButtonReset, HistoryContainer, HistoryContainerHeader, HistoryLi
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
+import { ModalStructure } from "../../components/Modal/ModalStructure";
 
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)
-
+  
   const haveCycles = cycles.length;
-
-  function handleCyclesRemove() {
-
-    deleteListOfCycles()
-  }
   
   return (
     
     <HistoryContainer>
 
       <HistoryContainerHeader> 
-        <HistoryTitleHeader> Meu histórico </HistoryTitleHeader> 
-        <HistoryButtonReset 
-          type="button"
-          disabled={!(haveCycles > 0)}
-          onClick={handleCyclesRemove}
-        >
+        <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
 
-          Reset History
-        </HistoryButtonReset>
+        <ModalStructure 
+          title="Excluir Histórico" 
+          triggerType={
+            <HistoryButtonReset 
+              type="button"
+              disabled={!(haveCycles > 0)}          
+            >
+              Reset History
+            </HistoryButtonReset>
+          }
+          modalType={
+            <ModalConfirmation />
+          }        
+        />             
       </HistoryContainerHeader>
       
       <HistoryList>

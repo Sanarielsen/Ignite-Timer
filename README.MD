@@ -6,6 +6,8 @@
 + React Hook Form (npm i react-hook-form)
 + Date-FNS (npm i date-fns)
 + immer (npm i immer)
++ Radix UI: Dialog (npm install @radix-ui/react-dialog)
++ Phosphor Icons (npm i phosphor-react)
 
 ## Versão BR
 
