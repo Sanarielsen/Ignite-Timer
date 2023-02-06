@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { createRef, useContext, useLayoutEffect, useRef } from "react";
 import { HistoryButtonReset, HistoryContainer, HistoryContainerHeader, HistoryList, HistoryTitleHeader, Status } from "./styles";
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { formatDistanceToNow } from 'date-fns'
@@ -8,9 +8,12 @@ import { ModalStructure } from "../../components/Modal/ModalStructure";
 
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)
-  
+    
   const haveCycles = cycles.length;
-  
+
+  //const ref = createRef();
+  const ref = useRef<HTMLButtonElement>(null);
+
   return (
     
     <HistoryContainer>
@@ -18,10 +21,10 @@ export function History() {
       <HistoryContainerHeader> 
         <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
 
-        <ModalStructure 
-          title="Excluir Histórico" 
+        {/* <ModalStructure        
+          title="Excluir Histórico"
           triggerType={
-            <HistoryButtonReset 
+            <HistoryButtonReset         
               type="button"
               disabled={!(haveCycles > 0)}          
             >
@@ -30,8 +33,19 @@ export function History() {
           }
           modalType={
             <ModalConfirmation />
-          }        
-        />             
+          }                             
+        />              */}
+
+        <ModalStructure>
+          <HistoryButtonReset                       
+              type="button"
+              disabled={!(haveCycles > 0)}
+              onClick={() => console.log("clicou")}         
+            >
+              Reset History
+            </HistoryButtonReset>
+          <ModalConfirmation />
+        </ModalStructure>
       </HistoryContainerHeader>
       
       <HistoryList>
