@@ -1,4 +1,7 @@
 export const defaultTheme = {
+  'zinc-200': '#e4e4e7',
+  'zinc-400': '#a1a1aa',
+
   'gray-100': '#E1E1E6',
   'gray-300': '#C4C4CC',
   'gray-400': '#8D8D99',
