@@ -1,10 +1,10 @@
+import { ForwardedRef, ReactNode, forwardRef } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import {  ForwardedRef, ReactNode, RefAttributes, createRef, forwardRef } from 'react';
 
 type Props = { 
   children: ReactNode[],
-  // open: boolean,
-  // onOpenChange: (open: boolean) => void,  
+  open: boolean,
+  handleOpenChange: React.Dispatch<React.SetStateAction<boolean>>,  
 };
 type Ref = HTMLButtonElement;
 
@@ -12,7 +12,7 @@ export const ModalStructure = forwardRef<Ref, Props>((props, ref) => {
 
   return (
 
-    <Dialog.Root>
+    <Dialog.Root open={props.open} onOpenChange={props.handleOpenChange}>
       <Dialog.Trigger asChild ref={ref as ForwardedRef<HTMLButtonElement>}>
           
         {props.children[0]}
