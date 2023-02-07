@@ -1,24 +1,32 @@
-import { createRef, useContext, useLayoutEffect, useRef, useState } from "react";
-import { HistoryButtonReset, HistoryContainer, HistoryContainerHeader, HistoryList, HistoryTitleHeader, Status } from "./styles";
-import { CyclesContext } from "../../contexts/CyclesContext";
+import { useContext, useRef, useState } from "react";
+
 import { formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+
+import { CyclesContext } from "../../contexts/CyclesContext";
+import { 
+  HistoryButtonReset, 
+  HistoryContainer, 
+  HistoryContainerHeader, 
+  HistoryList, 
+  HistoryTitleHeader, 
+  Status 
+} from "./styles";
 import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
 import { ModalStructure } from "../../components/Modal/ModalStructure";
-import { Dialog } from "@radix-ui/react-dialog";
 
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
   const ref = useRef<HTMLButtonElement>(null);
 
-  const [openModalConfirm, setOpenModalConfirm] = useState(false);
+  const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
 
   const haveCycles = cycles.length;
   
   function handleCyclesRemove() {
 
     setOpenModalConfirm(false)
-    //deleteListOfCycles()      
+    deleteListOfCycles()      
   }
 
   return (
@@ -27,7 +35,7 @@ export function History() {
 
       <HistoryContainerHeader> 
         <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
-        <ModalStructure ref={ref}>
+        <ModalStructure open={openModalConfirm} handleOpenChange={setOpenModalConfirm} ref={ref}>
           <HistoryButtonReset                                             
               type="button"
               disabled={!(haveCycles > 0)}
