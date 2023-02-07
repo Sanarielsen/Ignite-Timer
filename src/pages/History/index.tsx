@@ -1,18 +1,25 @@
-import { createRef, useContext, useLayoutEffect, useRef } from "react";
+import { createRef, useContext, useLayoutEffect, useRef, useState } from "react";
 import { HistoryButtonReset, HistoryContainer, HistoryContainerHeader, HistoryList, HistoryTitleHeader, Status } from "./styles";
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
 import { ModalStructure } from "../../components/Modal/ModalStructure";
+import { Dialog } from "@radix-ui/react-dialog";
 
 export function History() {
-  const { cycles, deleteListOfCycles } = useContext(CyclesContext)
-    
-  const haveCycles = cycles.length;
-
-  //const ref = createRef();
+  const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
   const ref = useRef<HTMLButtonElement>(null);
+
+  const [openModalConfirm, setOpenModalConfirm] = useState(false);
+
+  const haveCycles = cycles.length;
+  
+  function handleCyclesRemove() {
+
+    setOpenModalConfirm(false)
+    //deleteListOfCycles()      
+  }
 
   return (
     
@@ -20,33 +27,22 @@ export function History() {
 
       <HistoryContainerHeader> 
         <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
-
-        {/* <ModalStructure        
-          title="Excluir Histórico"
-          triggerType={
-            <HistoryButtonReset         
-              type="button"
-              disabled={!(haveCycles > 0)}          
-            >
-              Reset History
-            </HistoryButtonReset>
-          }
-          modalType={
-            <ModalConfirmation />
-          }                             
-        />              */}
-
-        <ModalStructure>
-          <HistoryButtonReset                       
+        <ModalStructure ref={ref}>
+          <HistoryButtonReset                                             
               type="button"
               disabled={!(haveCycles > 0)}
-              onClick={() => console.log("clicou")}         
-            >
-              Reset History
-            </HistoryButtonReset>
-          <ModalConfirmation />
+              onClick={() => setOpenModalConfirm(true)}                     
+          >
+            Reset History
+          </HistoryButtonReset>
+          <ModalConfirmation            
+            title="Excluir histórico" 
+            message="Tem certeza que gostaria de apagar seu histórico? Essa operação é irreversivel" 
+            handleClose={() => setOpenModalConfirm(false)}
+            handleSubmit={() => handleCyclesRemove()}
+          />
         </ModalStructure>
-      </HistoryContainerHeader>
+      </HistoryContainerHeader>      
       
       <HistoryList>
       
