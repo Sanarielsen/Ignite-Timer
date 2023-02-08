@@ -1,12 +1,46 @@
 import { FormContainer, MinutesAmountInput, TaskInput } from "./styles";
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useFormContext } from "react-hook-form";
 import { CyclesContext } from "../../../../contexts/CyclesContext";
+import { Cycle } from "../../../../reducers/cycles/reducer";
 
 export function NewCycleForm() {
 
-  const { activeCycle } = useContext(CyclesContext);
-  const { register } = useFormContext()
+  const { activeCycle, cycles } = useContext(CyclesContext);
+  const { register } = useFormContext();
+
+  const [cycleOptions, setCycleOptions] = useState<string[]>([])
+
+  const haveCycles = cycles.length;
+
+  function appendUniqueTasks(taskName: string) {    
+
+    cycles.map((cycle) => {
+      
+      if ( cycle.task === taskName && !cycleOptions.includes(taskName) ) {
+        
+        setCycleOptions([...cycleOptions, taskName])
+      }
+    })
+
+    console.log(cycleOptions)
+  }
+
+  useEffect({
+
+
+  }, [])
+
+  // var array = ['a', 'b', 'b', 'c', 'c'];
+  // var unique = array.reduce((acc, curr) => (acc[curr] = '', acc), {});
+  // console.log(Object.keys(unique));
+
+  // const cycleOptions = cycles.reduce((total, current) => (total[current] = '', total), {});
+  // console.log(cycleOptions)
+
+  // const cycleOptions = cycles.flat()
+  // console.log(cycles)
+  // console.log(cycleOptions)
 
   return (
 
@@ -21,10 +55,16 @@ export function NewCycleForm() {
       />
 
       <datalist id="task-suggestions">
-        <option value="Projeto 1" />
-        <option value="Projeto 2" />
-        <option value="Projeto 3" />
-        <option value="Projeto 4" />
+        { haveCycles > 0 &&
+          
+          cycles.map(( cycle ) => {
+            
+            appendUniqueTasks(cycle.task);
+            // console.log(cycle.task, " - ", newOption)
+            // if (!newOption)
+            //   return (<option key={cycle.id} value={cycle.task} />)            
+          })
+        }
       </datalist>
       
       <label htmlFor="minutesAmount">durante</label>
