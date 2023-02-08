@@ -22,16 +22,6 @@ export function cyclesReducer(state: CycleState, action: any) {
 
   switch( action.type ) {    
 
-    case ActionTypes.INITIALIZE_LIST_OF_CYCLES: {
-
-      const stateNull = {} as CycleState
-
-      return produce(state, draft => {
-
-        draft.cycles.splice(0,draft.cycles.length)
-        draft.activeCycleId = null
-      })
-    }
     case ActionTypes.ADD_NEW_CYCLE:
       return produce(state, draft => {
         draft.cycles.push(action.payload.newCycle);
