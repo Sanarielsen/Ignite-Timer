@@ -1,11 +1,11 @@
-import { ThemeProvider } from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
-import {Router} from './Router'
 
+import { ThemeProvider } from 'styled-components'
+
+import { CyclesContextProvider } from './contexts/CyclesContext'
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
-import { useState } from 'react'
-import { CyclesContextProvider } from './contexts/CyclesContext'
+import { Router } from './Router'
 
 export function App() {
 

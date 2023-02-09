@@ -1,8 +1,8 @@
-import { FormContainer, MinutesAmountInput, TaskInput } from "./styles";
 import { useContext, useEffect, useState } from 'react';
 import { useFormContext } from "react-hook-form";
+
+import { FormContainer, MinutesAmountInput, TaskInput } from "./styles";
 import { CyclesContext } from "../../../../contexts/CyclesContext";
-import { Cycle } from "../../../../reducers/cycles/reducer";
 
 export function NewCycleForm() {
 
@@ -31,17 +31,6 @@ export function NewCycleForm() {
     })
     console.log(cycleOptions)
   },[cycleOptions, cycles])
-
-  // var array = ['a', 'b', 'b', 'c', 'c'];
-  // var unique = array.reduce((acc, curr) => (acc[curr] = '', acc), {});
-  // console.log(Object.keys(unique));
-
-  // const cycleOptions = cycles.reduce((total, current) => (total[current] = '', total), {});
-  // console.log(cycleOptions)
-
-  // const cycleOptions = cycles.flat()
-  // console.log(cycles)
-  // console.log(cycleOptions)
 
   return (
 
