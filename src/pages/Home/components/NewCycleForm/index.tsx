@@ -32,6 +32,7 @@ export function NewCycleForm() {
     console.log(cycleOptions)
   },[cycleOptions, cycles])
 
+
   // var array = ['a', 'b', 'b', 'c', 'c'];
   // var unique = array.reduce((acc, curr) => (acc[curr] = '', acc), {});
   // console.log(Object.keys(unique));
@@ -58,7 +59,7 @@ export function NewCycleForm() {
       <datalist id="task-suggestions">
         { haveCycles > 0 &&
           cycleOptions.map(( taskName ) => {            
-            return (<option key={taskName} value={taskName} />)            
+            return (<option key={taskName} value={taskName} />)                   
           })
         }
       </datalist>
