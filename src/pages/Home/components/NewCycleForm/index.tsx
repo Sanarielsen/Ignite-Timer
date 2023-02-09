@@ -47,7 +47,7 @@ export function NewCycleForm() {
       <datalist id="task-suggestions">
         { haveCycles > 0 &&
           cycleOptions.map(( taskName ) => {            
-            return (<option key={taskName} value={taskName} />)            
+            return (<option key={taskName} value={taskName} />)                   
           })
         }
       </datalist>
