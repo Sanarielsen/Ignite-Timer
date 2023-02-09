@@ -21,15 +21,17 @@ export function NewCycleForm() {
         
         setCycleOptions([...cycleOptions, taskName])
       }
-    })
-
-    console.log(cycleOptions)
+    })    
   }
 
-  useEffect({
+  useEffect(() => {
 
+    cycles.map((cycle) => {
+      appendUniqueTasks(cycle.task);
+    })
+    console.log(cycleOptions)
+  },[cycleOptions, cycles])
 
-  }, [])
 
   // var array = ['a', 'b', 'b', 'c', 'c'];
   // var unique = array.reduce((acc, curr) => (acc[curr] = '', acc), {});
@@ -56,13 +58,8 @@ export function NewCycleForm() {
 
       <datalist id="task-suggestions">
         { haveCycles > 0 &&
-          
-          cycles.map(( cycle ) => {
-            
-            appendUniqueTasks(cycle.task);
-            // console.log(cycle.task, " - ", newOption)
-            // if (!newOption)
-            //   return (<option key={cycle.id} value={cycle.task} />)            
+          cycleOptions.map(( taskName ) => {            
+            return (<option key={taskName} value={taskName} />)                   
           })
         }
       </datalist>
