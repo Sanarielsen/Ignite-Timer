@@ -15,6 +15,7 @@ Aprendizado desse projeto:
 + forwardRef
 + Radix Modal
 + Theme
++ Extract Excel
 
 Projeto criado durante a minha jornada de aprendizado dentro do **ignite da rocketseat**.
 
