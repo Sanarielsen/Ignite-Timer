@@ -65,6 +65,9 @@ export const HistoryList = styled.div`
     overflow: auto;
     margin-top: 2rem;
 
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+
     table {
 
         width: 100%;
