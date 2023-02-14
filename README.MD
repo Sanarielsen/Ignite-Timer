@@ -1,12 +1,10 @@
 # Ignite Timer
 
 + Página Principal
-
-![Imgur](https://imgur.com/QJDlEFm)
+[Imgur](https://i.imgur.com/QJDlEFm.png)
 
 + Página de Histórico
-
-![Imgur](https://imgur.com/YBgo0Rp)
+[Imgur](https://i.imgur.com/YBgo0Rp.png)
 
 ### Dependencias instaladas:
 + React Hook Form (npm i react-hook-form)
