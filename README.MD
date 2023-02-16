@@ -13,7 +13,7 @@
 + Radix UI: Dialog (npm install @radix-ui/react-dialog)
 + Phosphor Icons (npm i phosphor-react)
 
-TESTE
+NÃO TA ATUALIZANDO O VERDINHO!!!!
 
 ## Versão BR
 
