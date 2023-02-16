@@ -5,6 +5,9 @@ export const HistoryContainer = styled.main`
     flex: 1;
     padding: 3.5rem;
 
+    height: 40%;
+    scroll-behavior: auto;
+
     display: flex;
     flex-direction: column;
 
@@ -117,6 +120,18 @@ export const HistoryList = styled.div`
         }
     };
 `;
+
+export const HistoryTable = styled.table`
+
+  position: relative;
+  border-collapse: collapse; 
+`
+
+export const HistoryTableBody = styled.tbody`
+
+    height: "80%";
+    scroll-behavior: "auto";
+`
 
 const STATUS_COLORS = {
 

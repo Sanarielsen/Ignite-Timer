@@ -6,6 +6,8 @@ import {
   HistoryContainer, 
   HistoryContainerHeader, 
   HistoryList, 
+  HistoryTable, 
+  HistoryTableBody, 
   HistoryTitleHeader, 
 } from "./styles";
 import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
@@ -58,24 +60,25 @@ export function History() {
       </HistoryContainerHeader>      
       
       <HistoryList>
-        <table>
-            <thead>
-              <tr>
-                {headerHistoryList.map((option) => {
-                  return (
-                    <th key={option.id}> {option.value} </th>
-                  )
-                })}
-              </tr>
-            </thead>
-            <tbody className="panelHistory">              
-              {cycles.map((cycle) => {
+        <HistoryTable>
+          <thead>
+            <tr>
+              {headerHistoryList.map((option) => {
                 return (
-                  <HistoryData key={cycle.id} cycle={cycle} />
+                  <th key={option.id}> {option.value} </th>
                 )
-              })}             
-            </tbody>
-        </table>
+              })}
+            </tr>
+          </thead>
+          <HistoryTableBody>            
+            {cycles.map((cycle) => {
+              return (
+                <HistoryData key={cycle.id} cycle={cycle} />
+              )
+            })}
+            <tr id="panelReference" style={{width: "100%", height: "5px", backgroundColor: "red"}}> Teste </tr>             
+          </HistoryTableBody>  
+        </HistoryTable>
       </HistoryList>
     </HistoryContainer>
   )
