@@ -13,6 +13,8 @@
 + Radix UI: Dialog (npm install @radix-ui/react-dialog)
 + Phosphor Icons (npm i phosphor-react)
 
+TESTE
+
 ## Versão BR
 
 Aprendizado desse projeto:
