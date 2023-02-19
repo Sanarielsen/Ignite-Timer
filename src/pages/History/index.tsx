@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -11,6 +11,7 @@ import {
 import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
 import { ModalStructure } from "../../components/Modal/ModalStructure";
 import { HistoryData } from "./components/HistoryData";
+import { ScrolViewInfinite } from "./components/ScrollViewInfinite";
 
 const headerHistoryList = [
 
@@ -24,7 +25,7 @@ export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
   const ref = useRef<HTMLButtonElement>(null);
 
-  const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
+  const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);  
 
   const haveCycles = cycles.length;
   
@@ -33,6 +34,11 @@ export function History() {
     setOpenModalConfirm(false)
     deleteListOfCycles()      
   }
+
+  useEffect(() => {
+    
+    ScrolViewInfinite();
+  },[cycles])
 
   return (
     
@@ -68,7 +74,7 @@ export function History() {
                 })}
               </tr>
             </thead>
-            <tbody className="panelHistory">              
+            <tbody className="cycleContainer">              
               {cycles.map((cycle) => {
                 return (
                   <HistoryData key={cycle.id} cycle={cycle} />
