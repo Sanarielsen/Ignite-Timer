@@ -1,9 +1,7 @@
 # Ignite Timer
 
-+ Página Principal
 ![Imgur](https://i.imgur.com/QJDlEFm.png)
 
-+ Página de Histórico
 ![Imgur](https://i.imgur.com/YBgo0Rp.png)
 
 ### Dependencias instaladas:
@@ -12,8 +10,6 @@
 + immer (npm i immer)
 + Radix UI: Dialog (npm install @radix-ui/react-dialog)
 + Phosphor Icons (npm i phosphor-react)
-
-NÃO TA ATUALIZANDO O VERDINHO!!!! AGORA FOI! RSRSRS
 
 ## Versão BR
 
