@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -14,6 +14,7 @@ import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
 import { ModalStructure } from "../../components/Modal/ModalStructure";
 import { HistoryData } from "./components/HistoryData";
 import { Cycle } from "../../reducers/cycles/reducer";
+import { useIntersect } from "../../utils/IntersectionObserver";
 
 const headerHistoryList = [
 
@@ -26,10 +27,10 @@ const headerHistoryList = [
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
   const ref = useRef<HTMLButtonElement>(null);
-  const refObserver = useRef(null);
+  const refObserver = useRef<HTMLDivElement>(null); 
 
   let elementsPerLoad = 10;
-  
+    
   const [scrollInfinite, setScrollInfinite] = useState(true);
   const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);
   const [cyclesLoaded, setCyclesLoaded] = useState<Cycle[]>(cycles.slice(0, quantCyclesLoaded))
@@ -44,6 +45,18 @@ export function History() {
     deleteListOfCycles()      
   }
 
+  const [intersection, setIntersection] = useState(new IntersectionObserver((entries) => {  
+    
+    if (entries.some((entry) => entry.isIntersecting) && scrollInfinite) {
+      setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
+    }
+  }));
+  
+  useEffect(() => {
+        
+    intersection.observe(document.querySelector('#panelReference') as HTMLElement)    
+  },[])
+
   useEffect(() => {
     if (cyclesLoaded && scrollInfinite) {        
       setQuantCyclesLoaded((current) => current = quantCyclesLoaded + elementsPerLoad)
@@ -53,23 +66,12 @@ export function History() {
 
   useEffect(() => {
     if (cyclesLoaded.length === cycles.length) {      
-      setScrollInfinite((status) => status = !status);
-    }
-    console.log("Observer turn off: ", scrollInfinite)         
+      setScrollInfinite((status) => status = !status);      
+      intersection.disconnect()
+      intersection.unobserve(document.querySelector('#panelReference') as HTMLElement);
+      setIntersection(new IntersectionObserver(() => null))      
+    }          
   }, [cyclesLoaded])
-
-  useEffect(() => {
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      console.log("Observer: BATI", scrollInfinite, " - Page: ", currentPage)
-      if (entries.some((entry) => entry.isIntersecting) && scrollInfinite)
-        setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
-    });
-    if (refObserver.current) {      
-      intersectionObserver.observe(refObserver.current)
-    }
-    intersectionObserver.observe(document.querySelector('#panelReference') as HTMLElement)
-    return  
-  }, [])
 
   return (
     
