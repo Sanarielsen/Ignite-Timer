@@ -26,9 +26,11 @@ const headerHistoryList = [
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
   const ref = useRef<HTMLButtonElement>(null);
+  const refObserver = useRef(null);
 
   let elementsPerLoad = 10;
   
+  const [scrollInfinite, setScrollInfinite] = useState(true);
   const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);
   const [cyclesLoaded, setCyclesLoaded] = useState<Cycle[]>(cycles.slice(0, quantCyclesLoaded))
   const [currentPage, setCurrentPage] = useState(1)
@@ -43,26 +45,38 @@ export function History() {
   }
 
   useEffect(() => {
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting))      
-        setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
-    });
-    intersectionObserver.observe(document.querySelector('#panelReference') as HTMLElement)
-    return () => intersectionObserver.disconnect();
-  }, [])
-
-  useEffect(() => {
-    if (cyclesLoaded) {      
-      setQuantCyclesLoaded(quantCyclesLoaded + elementsPerLoad)
+    if (cyclesLoaded && scrollInfinite) {        
+      setQuantCyclesLoaded((current) => current = quantCyclesLoaded + elementsPerLoad)
       setCyclesLoaded((current) => current = cycles.slice(0, quantCyclesLoaded))      
     }      
   }, [currentPage])
 
+  useEffect(() => {
+    if (cyclesLoaded.length === cycles.length) {      
+      setScrollInfinite((status) => status = !status);
+    }
+    console.log("Observer turn off: ", scrollInfinite)         
+  }, [cyclesLoaded])
+
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      console.log("Observer: BATI", scrollInfinite, " - Page: ", currentPage)
+      if (entries.some((entry) => entry.isIntersecting) && scrollInfinite)
+        setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
+    });
+    if (refObserver.current) {      
+      intersectionObserver.observe(refObserver.current)
+    }
+    intersectionObserver.observe(document.querySelector('#panelReference') as HTMLElement)
+    return  
+  }, [])
+
   return (
     
     <HistoryContainer>
-
-      <HistoryContainerHeader> 
+      <h1>Info: {cyclesLoaded.length} </h1>
+      <h1>Info 2: {cycles.length} </h1>      
+      <HistoryContainerHeader>
         <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
         <ModalStructure open={openModalConfirm} handleOpenChange={setOpenModalConfirm} ref={ref}>
           <HistoryButtonReset                                             
@@ -98,10 +112,10 @@ export function History() {
               return (
                 <HistoryData key={cycle.id} cycle={cycle} />
               )
-            })}
-            <div id="panelReference" style={{width: "100%", height: "5px"}}></div>   
+            })}            
           </HistoryTableBody>            
-        </HistoryTable>        
+        </HistoryTable>
+        <div id="panelReference" ref={refObserver} style={{width: "100%", height: "5px"}}></div>   
       </HistoryList>
     </HistoryContainer>
   )

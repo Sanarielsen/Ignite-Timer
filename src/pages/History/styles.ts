@@ -71,6 +71,26 @@ export const HistoryList = styled.div`
     overflow-y: scroll;
     scroll-behavior: smooth;
 
+    /* width */
+    ::-webkit-scrollbar {
+    width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #888; 
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    }
+
     table {
 
         width: 100%;
@@ -79,11 +99,14 @@ export const HistoryList = styled.div`
     }
 
     th {
-
-        background-color: ${(props) => props.theme['gray-600']};
+        
+        position: sticky;
+        top: 0;
         padding: 1rem;
-        text-align: left;
+        background-color: ${(props) => props.theme['gray-600']};
+
         color: ${(props) => props.theme['gray-100']};
+        text-align: left;        
         font-size: 0.875rem;
         line-height: 1.6;
 

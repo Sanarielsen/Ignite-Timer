@@ -12,7 +12,7 @@ export function HistoryData( { cycle }: HistoryDataProps ) {
 
   return (
     <> 
-      <tr className="cycleLoader">
+      <tr className="cycle">
         <td className="cycleTask">{cycle.task}</td>
         <td className="cycleTime">{cycle.minutesAmount} minutos</td>
         <td className="cycleTimePassed">{formatDistanceToNow(new Date(cycle.startDate), { 
