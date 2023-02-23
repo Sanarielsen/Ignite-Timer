@@ -45,33 +45,18 @@ export function History() {
     deleteListOfCycles()      
   }
 
-  const [intersection, setIntersection] = useState(new IntersectionObserver((entries) => {  
-    
-    if (entries.some((entry) => entry.isIntersecting) && scrollInfinite) {
-      setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
-    }
-  }));
-  
   useEffect(() => {
-        
-    intersection.observe(document.querySelector('#panelReference') as HTMLElement)    
-  },[])
 
-  useEffect(() => {
-    if (cyclesLoaded && scrollInfinite) {        
-      setQuantCyclesLoaded((current) => current = quantCyclesLoaded + elementsPerLoad)
-      setCyclesLoaded((current) => current = cycles.slice(0, quantCyclesLoaded))      
-    }      
-  }, [currentPage])
+    const intersection = new IntersectionObserver((entries) => {
 
-  useEffect(() => {
-    if (cyclesLoaded.length === cycles.length) {      
-      setScrollInfinite((status) => status = !status);      
-      intersection.disconnect()
-      intersection.unobserve(document.querySelector('#panelReference') as HTMLElement);
-      setIntersection(new IntersectionObserver(() => null))      
-    }          
-  }, [cyclesLoaded])
+      if (entries.some((entry) => entry.isIntersecting) && scrollInfinite) {
+        setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
+        intersection.disconnect();
+      }
+    })
+
+    intersection.observe(document.querySelector('#panelReference') as HTMLElement)
+  }, [currentPage]) 
 
   return (
     
