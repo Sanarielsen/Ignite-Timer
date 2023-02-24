@@ -1,4 +1,4 @@
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -14,7 +14,6 @@ import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
 import { ModalStructure } from "../../components/Modal/ModalStructure";
 import { HistoryData } from "./components/HistoryData";
 import { Cycle } from "../../reducers/cycles/reducer";
-import { useIntersect } from "../../utils/IntersectionObserver";
 
 const headerHistoryList = [
 
@@ -46,20 +45,28 @@ export function History() {
   }
 
   useEffect(() => {
-
-    const intersection = new IntersectionObserver((entries) => {
-
-      if (entries.some((entry) => entry.isIntersecting) && scrollInfinite) {
-        setCurrentPage((currentPageInsideState) => currentPageInsideState + 1);
+    const intersection = new IntersectionObserver((entries) => {      
+      if (entries.some((entry) => entry.isIntersecting) && scrollInfinite) {        
+        setCurrentPage(currentPage + 1);
         intersection.disconnect();
       }
     })
-
     intersection.observe(document.querySelector('#panelReference') as HTMLElement)
+
+    if (cyclesLoaded && scrollInfinite) {        
+      setQuantCyclesLoaded((current) => current = quantCyclesLoaded + elementsPerLoad)
+      setCyclesLoaded((current) => current = cycles.slice(0, quantCyclesLoaded))      
+    }   
   }, [currentPage]) 
 
+  useEffect(() => {
+    if (cyclesLoaded.length === cycles.length) {
+      setScrollInfinite(false)
+    }
+  }, [cyclesLoaded])
+
   return (
-    
+        
     <HistoryContainer>
       <h1>Info: {cyclesLoaded.length} </h1>
       <h1>Info 2: {cycles.length} </h1>      
