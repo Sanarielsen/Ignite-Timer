@@ -2,16 +2,16 @@ import { formatDistanceToNow } from "date-fns"
 import { Cycle } from "../../../reducers/cycles/reducer"
 import { ptBR } from "date-fns/locale"
 import { Status } from "../styles"
+import { MutableRefObject, RefObject, useRef } from "react";
 
 interface HistoryDataProps {
-
-  cycle: Cycle
+  cycle: Cycle;
 }
 
-export function HistoryData( { cycle }: HistoryDataProps ) {
+export function HistoryData( { cycle }: HistoryDataProps ) {  
 
   return (
-    <> 
+    <>       
       <tr className="cycle">
         <td className="cycleTask">{cycle.task}</td>
         <td className="cycleTime">{cycle.minutesAmount} minutos</td>
@@ -30,7 +30,7 @@ export function HistoryData( { cycle }: HistoryDataProps ) {
             <Status statusColor="yellow">Em andamento</Status> 
           )}
         </td>
-      </tr>
+      </tr>      
     </>
   )
 }

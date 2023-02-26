@@ -70,25 +70,21 @@ export const HistoryList = styled.div`
 
     overflow-y: scroll;
     scroll-behavior: smooth;
-
-    /* width */
+    
     ::-webkit-scrollbar {
-    width: 10px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+        width: 10px;        
     }
     
-    /* Handle */
+    ::-webkit-scrollbar-track {
+        background: ${(props) => props.theme['gray-900']}; 
+    }
+        
     ::-webkit-scrollbar-thumb {
-    background: #888; 
+        background: ${(props) => props.theme['zinc-400']};         
     }
 
-    /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+        background: ${(props) => props.theme['zinc-200']}; 
     }
 
     table {

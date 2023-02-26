@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { createRef, useContext, useEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -26,10 +26,16 @@ const headerHistoryList = [
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
   const ref = useRef<HTMLButtonElement>(null);
-  const refObserver = useRef<HTMLDivElement>(null); 
+  const refCycle = useRef([createRef()])
+  const refObserver = useRef<HTMLDivElement>(null);
+  const refPanel = useRef<HTMLDivElement>(null);
+  const refTable = useRef<HTMLTableElement>(null);
 
   let elementsPerLoad = 10;
-    
+  
+  const [tableHeight, setTableHeight] = useState<number | undefined>(0);
+  const [panelHeight, setPanelHeight] = useState<number | undefined>(0);
+
   const [scrollInfinite, setScrollInfinite] = useState(true);
   const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);
   const [cyclesLoaded, setCyclesLoaded] = useState<Cycle[]>(cycles.slice(0, quantCyclesLoaded))
@@ -43,6 +49,20 @@ export function History() {
     setOpenModalConfirm(false)
     deleteListOfCycles()      
   }
+
+  useEffect( () => {
+
+    setTableHeight(refTable.current?.offsetHeight)
+    setPanelHeight(refPanel.current?.offsetHeight)
+
+    console.log("Ativa a table: ", tableHeight)
+    console.log("Ativa a panel: ", panelHeight)
+    
+    if ( (tableHeight && panelHeight) && tableHeight > panelHeight ) {
+
+      console.log("Ativa a barra")
+    }
+  },[])
 
   useEffect(() => {
     const intersection = new IntersectionObserver((entries) => {      
@@ -67,9 +87,7 @@ export function History() {
 
   return (
         
-    <HistoryContainer>
-      <h1>Info: {cyclesLoaded.length} </h1>
-      <h1>Info 2: {cycles.length} </h1>      
+    <HistoryContainer>        
       <HistoryContainerHeader>
         <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
         <ModalStructure open={openModalConfirm} handleOpenChange={setOpenModalConfirm} ref={ref}>
@@ -88,10 +106,9 @@ export function History() {
           />
         </ModalStructure>
       </HistoryContainerHeader>      
-      
-      <h1> Pagina atual: {currentPage} </h1>
-      <HistoryList>        
-        <HistoryTable>
+            
+      <HistoryList ref={refPanel}>        
+        <HistoryTable ref={refTable}>
           <thead>
             <tr>
               {headerHistoryList.map((option) => {
@@ -102,7 +119,7 @@ export function History() {
             </tr>
           </thead>
           <HistoryTableBody>            
-            {cyclesLoaded.map((cycle) => {
+            {cyclesLoaded.map((cycle, i) => {
               return (
                 <HistoryData key={cycle.id} cycle={cycle} />
               )
