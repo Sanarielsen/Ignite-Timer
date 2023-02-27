@@ -1,4 +1,4 @@
-import { createRef, useContext, useEffect, useRef, useState } from "react";
+import { RefObject, createRef, useContext, useEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -25,11 +25,12 @@ const headerHistoryList = [
 
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
+
   const ref = useRef<HTMLButtonElement>(null);
   const refCycle = useRef([createRef()])
   const refObserver = useRef<HTMLDivElement>(null);
   const refPanel = useRef<HTMLDivElement>(null);
-  const refTable = useRef<HTMLTableElement>(null);
+  const refTable = useRef<HTMLTableElement>();
 
   let elementsPerLoad = 10;
   
@@ -40,7 +41,7 @@ export function History() {
   const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);
   const [cyclesLoaded, setCyclesLoaded] = useState<Cycle[]>(cycles.slice(0, quantCyclesLoaded))
   const [currentPage, setCurrentPage] = useState(1)
-  const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);  
+  const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
 
   const haveCycles = cycles.length;  
   
@@ -51,6 +52,13 @@ export function History() {
   }
 
   useEffect( () => {
+
+    if (refTable) {
+      handleRef(refTable);
+    }
+
+    console.log("Altura da table: ", refTable.current?.offsetHeight)
+    console.log("Altura da panel: ", refPanel.current?.offsetHeight)
 
     setTableHeight(refTable.current?.offsetHeight)
     setPanelHeight(refPanel.current?.offsetHeight)
@@ -63,6 +71,13 @@ export function History() {
       console.log("Ativa a barra")
     }
   },[])
+
+  const handleRef = (r: RefObject<HTMLDivElement>) => {
+    
+    console.log("Represents: ", r.current?.offsetHeight)    
+    setTableHeight(r.current?.offsetHeight)
+    console.log("Represents: ", tableHeight)
+  }
 
   useEffect(() => {
     const intersection = new IntersectionObserver((entries) => {      
