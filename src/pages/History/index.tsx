@@ -1,4 +1,4 @@
-import { RefObject, createRef, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -29,24 +29,38 @@ export function History() {
   const ref = useRef<HTMLButtonElement>(null);    
   const refPanel = useRef<HTMLDivElement>(document.createElement("div"));
   const refTable = useRef<HTMLTableElement>(document.createElement("table"));
+  const refTableHeader = useRef<HTMLTableSectionElement>(document.createElement("thead"));
 
-  let elementsPerLoad = 10;
+  let elementsPerLoad = 1;
   let scrollName = ""
 
   const [scrollInfinite, setScrollInfinite] = useState(true);
   const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);
   const [cyclesLoaded, setCyclesLoaded] = useState<Cycle[]>(cycles.slice(0, quantCyclesLoaded))
   const [currentPage, setCurrentPage] = useState(1)
+  const [cellTableHeight, setCellTableHeight] = useState(0)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
 
   const haveCycles = cycles.length;
 
-  useLayoutEffect( () => {    
+  useLayoutEffect( () => {
+    
+    setCellTableHeight(refTableHeader.current.offsetHeight)
     if (refTable.current.offsetHeight > refPanel.current.offsetHeight) {
 
       scrollName = "scroll-ativated"
     }
   },[])
+
+  useEffect(() => {
+
+    if (cellTableHeight > 0) {
+    
+      elementsPerLoad = Math.round(refPanel.current.offsetHeight / cellTableHeight)
+      setQuantCyclesLoaded(Math.round(refPanel.current.offsetHeight / cellTableHeight))      
+    }
+  }, [cellTableHeight])
+
   useEffect(() => {
     const intersection = new IntersectionObserver((entries) => {      
       if (entries.some((entry) => entry.isIntersecting) && scrollInfinite) {        
@@ -57,21 +71,21 @@ export function History() {
     intersection.observe(document.querySelector('#panelReference') as HTMLElement)
 
     if (cyclesLoaded && scrollInfinite) {        
-      setQuantCyclesLoaded((current) => current = quantCyclesLoaded + elementsPerLoad)
-      setCyclesLoaded((current) => current = cycles.slice(0, quantCyclesLoaded))      
+      setQuantCyclesLoaded(quantCyclesLoaded + elementsPerLoad)
+      setCyclesLoaded(cycles.slice(0, quantCyclesLoaded))      
     }   
   }, [currentPage]) 
 
-  useEffect(() => {
+  useEffect(() => {    
     if (cyclesLoaded.length === cycles.length) {
-      setScrollInfinite(false)
+      setScrollInfinite(false)      
     }
   }, [cyclesLoaded])
 
   function handleCyclesRemove() {
 
     setOpenModalConfirm(false)
-    deleteListOfCycles()      
+    deleteListOfCycles()    
   }
 
   return (
@@ -98,7 +112,7 @@ export function History() {
             
       <HistoryList className={scrollName} ref={refPanel}>        
         <HistoryTable ref={refTable}>
-          <thead>
+          <thead ref={refTableHeader}>
             <tr>
               {headerHistoryList.map((option) => {
                 return (
@@ -108,7 +122,7 @@ export function History() {
             </tr>
           </thead>
           <HistoryTableBody>            
-            {cyclesLoaded.map((cycle, i) => {
+            {cyclesLoaded.map((cycle) => {
               return (
                 <HistoryData key={cycle.id} cycle={cycle} />
               )
