@@ -67,9 +67,6 @@ export const HistoryList = styled.div`
     flex: 1;
     overflow: auto;
     margin-top: 2rem;
-
-    overflow-y: scroll;
-    scroll-behavior: smooth;
     
     ::-webkit-scrollbar {
         width: 10px;        
@@ -85,6 +82,12 @@ export const HistoryList = styled.div`
 
     ::-webkit-scrollbar-thumb:hover {
         background: ${(props) => props.theme['zinc-200']}; 
+    }
+
+    .scroll-ativated {
+
+        overflow-y: scroll;
+        scroll-behavior: smooth;
     }
 
     table {

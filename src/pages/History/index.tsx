@@ -1,4 +1,4 @@
-import { RefObject, createRef, useContext, useEffect, useRef, useState } from "react";
+import { RefObject, createRef, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -26,16 +26,12 @@ const headerHistoryList = [
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
 
-  const ref = useRef<HTMLButtonElement>(null);
-  const refCycle = useRef([createRef()])
-  const refObserver = useRef<HTMLDivElement>(null);
-  const refPanel = useRef<HTMLDivElement>(null);
-  const refTable = useRef<HTMLTableElement>();
+  const ref = useRef<HTMLButtonElement>(null);    
+  const refPanel = useRef<HTMLDivElement>(document.createElement("div"));
+  const refTable = useRef<HTMLTableElement>(document.createElement("table"));
 
   let elementsPerLoad = 10;
-  
-  const [tableHeight, setTableHeight] = useState<number | undefined>(0);
-  const [panelHeight, setPanelHeight] = useState<number | undefined>(0);
+  let scrollName = ""
 
   const [scrollInfinite, setScrollInfinite] = useState(true);
   const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);
@@ -43,42 +39,14 @@ export function History() {
   const [currentPage, setCurrentPage] = useState(1)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
 
-  const haveCycles = cycles.length;  
-  
-  function handleCyclesRemove() {
+  const haveCycles = cycles.length;
 
-    setOpenModalConfirm(false)
-    deleteListOfCycles()      
-  }
+  useLayoutEffect( () => {    
+    if (refTable.current.offsetHeight > refPanel.current.offsetHeight) {
 
-  useEffect( () => {
-
-    if (refTable) {
-      handleRef(refTable);
-    }
-
-    console.log("Altura da table: ", refTable.current?.offsetHeight)
-    console.log("Altura da panel: ", refPanel.current?.offsetHeight)
-
-    setTableHeight(refTable.current?.offsetHeight)
-    setPanelHeight(refPanel.current?.offsetHeight)
-
-    console.log("Ativa a table: ", tableHeight)
-    console.log("Ativa a panel: ", panelHeight)
-    
-    if ( (tableHeight && panelHeight) && tableHeight > panelHeight ) {
-
-      console.log("Ativa a barra")
+      scrollName = "scroll-ativated"
     }
   },[])
-
-  const handleRef = (r: RefObject<HTMLDivElement>) => {
-    
-    console.log("Represents: ", r.current?.offsetHeight)    
-    setTableHeight(r.current?.offsetHeight)
-    console.log("Represents: ", tableHeight)
-  }
-
   useEffect(() => {
     const intersection = new IntersectionObserver((entries) => {      
       if (entries.some((entry) => entry.isIntersecting) && scrollInfinite) {        
@@ -99,6 +67,12 @@ export function History() {
       setScrollInfinite(false)
     }
   }, [cyclesLoaded])
+
+  function handleCyclesRemove() {
+
+    setOpenModalConfirm(false)
+    deleteListOfCycles()      
+  }
 
   return (
         
@@ -122,7 +96,7 @@ export function History() {
         </ModalStructure>
       </HistoryContainerHeader>      
             
-      <HistoryList ref={refPanel}>        
+      <HistoryList className={scrollName} ref={refPanel}>        
         <HistoryTable ref={refTable}>
           <thead>
             <tr>
@@ -141,7 +115,7 @@ export function History() {
             })}            
           </HistoryTableBody>            
         </HistoryTable>
-        <div id="panelReference" ref={refObserver} style={{width: "100%", height: "5px"}}></div>   
+        <div id="panelReference" style={{width: "100%", height: "5px"}}></div>   
       </HistoryList>
     </HistoryContainer>
   )
