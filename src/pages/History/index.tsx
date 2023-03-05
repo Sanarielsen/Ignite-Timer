@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
@@ -24,7 +24,7 @@ const headerHistoryList = [
 ]
 
 export function History() {
-  const { cycles, deleteListOfCycles } = useContext(CyclesContext)  
+  const { cycles, deleteListOfCycles } = useContext(CyclesContext)   
 
   const ref = useRef<HTMLButtonElement>(null);    
   const refPanel = useRef<HTMLDivElement>(document.createElement("div"));
@@ -35,7 +35,7 @@ export function History() {
   let scrollName = ""
 
   const [scrollInfinite, setScrollInfinite] = useState(true);
-  const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);
+  const [quantCyclesLoaded, setQuantCyclesLoaded] = useState(elementsPerLoad);  
   const [cyclesLoaded, setCyclesLoaded] = useState<Cycle[]>(cycles.slice(0, quantCyclesLoaded))
   const [currentPage, setCurrentPage] = useState(1)
   const [cellTableHeight, setCellTableHeight] = useState(0)
@@ -73,7 +73,8 @@ export function History() {
     if (cyclesLoaded && scrollInfinite) {        
       setQuantCyclesLoaded(quantCyclesLoaded + elementsPerLoad)
       setCyclesLoaded(cycles.slice(0, quantCyclesLoaded))      
-    }   
+    }
+
   }, [currentPage]) 
 
   useEffect(() => {    
@@ -86,6 +87,7 @@ export function History() {
 
     setOpenModalConfirm(false)
     deleteListOfCycles()    
+    setCyclesLoaded([])
   }
 
   return (

@@ -28,8 +28,7 @@ export function NewCycleForm() {
 
     cycles.map((cycle) => {
       appendUniqueTasks(cycle.task);
-    })
-    console.log(cycleOptions)
+    })    
   },[cycleOptions, cycles])
 
   return (

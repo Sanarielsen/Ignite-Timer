@@ -1,7 +1,9 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from 'react'
+
+import { differenceInSeconds } from 'date-fns';
+
 import { Cycle, CycleState, cyclesReducer } from '../reducers/cycles/reducer';
 import { addNewCycleAction, deleteListOfCyclesAction, interruptCurrentCycleAction, markCurrentCycleAsFinishedAction } from '../reducers/cycles/actions';
-import { differenceInSeconds } from 'date-fns';
 
 interface CreateCycleData {
 
@@ -75,7 +77,7 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
   const minutes = String(minutesAmount).padStart(2, '0')
-  const seconds = String(secondsAmount).padStart(2, '0')
+  const seconds = String(secondsAmount).padStart(2, '0')  
 
   useEffect(() => {
     const stateJSON = JSON.stringify(cyclesState)
