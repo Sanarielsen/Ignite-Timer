@@ -1,4 +1,7 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from 'react'
+import useSound from 'use-sound';
+
+import alarmSound from '../assets/cycleAlarm.wav'
 
 import { differenceInSeconds } from 'date-fns';
 
@@ -72,12 +75,19 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
     return 0
   })
 
+  const [play, {stop}] = useSound(alarmSound, { volume: 0.50 })
+  const playSoundCycleFinished = () => {
+        
+    setTimeout(play, 8000);
+    stop();
+  }
+
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
   const minutes = String(minutesAmount).padStart(2, '0')
-  const seconds = String(secondsAmount).padStart(2, '0')  
+  const seconds = String(secondsAmount).padStart(2, '0')
 
   useEffect(() => {
     const stateJSON = JSON.stringify(cyclesState)
@@ -86,11 +96,17 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
   }, [cyclesState])  
 
   useEffect(() => {
-
+    
     if (activeCycle)
       document.title = `Ignite Timer - ${minutes}:${seconds}`
-    else if (haveFinishedCycle && minutesAmount === 0 && secondsAmount === 0 )
+    else if (cycles[cycles.length - 1] != null, haveFinishedCycle && minutesAmount === 0 && secondsAmount === 0 ) {
       document.title = `Ignite Timer - Finished!`
+      playSoundCycleFinished()
+    }
+    else {
+      document.title = `Ignite Timer`
+    }
+
   }, [minutes, seconds])
 
   useEffect(() => {

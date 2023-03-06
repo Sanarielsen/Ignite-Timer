@@ -95,6 +95,7 @@ export function History() {
     <HistoryContainer>        
       <HistoryContainerHeader>
         <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
+        
         <ModalStructure open={openModalConfirm} handleOpenChange={setOpenModalConfirm} ref={ref}>
           <HistoryButtonReset                                             
               type="button"

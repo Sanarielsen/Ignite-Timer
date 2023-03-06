@@ -46,7 +46,7 @@ export function Home() {
 
   return (
   
-    <HomeContainer>
+    <HomeContainer>        
         
         <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
 
@@ -59,6 +59,8 @@ export function Home() {
             <StopCountdownButton onClick={interruptCurrentCycle} type="button">
               <HandPalm size={24}/>
               Interromper
+
+
             </StopCountdownButton>
           ) : (
             <StartCountdownButton disabled={isSubmitDisabled} type="submit">

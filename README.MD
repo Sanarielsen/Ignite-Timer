@@ -17,7 +17,8 @@ Aprendizado desse projeto:
 + forwardRef
 + Radix Modal
 + Theme
-+ Scroll Infinite
++ Scroll Infinite with Intersection Observer
++ useSound
 
 Projeto criado durante a minha jornada de aprendizado dentro do **ignite da rocketseat**.
 
@@ -27,7 +28,13 @@ Em nossas atividades diárias, temos muitas coisas a fazer, dentre elas acabamos
 1. HTML; 
 2. CSS; 
 3. React;
-4. Styled Components.
++ Scroll Infinite usando o Intersection Observer
+
+## Pedido de ajustes:
+
+### useSound Hook.
+
+Olá, pessoal. Enquanto eu desenvolvia essa aplicação dentro do curso da rocketseat, adicionei algumas funções adicionais, entre elas, usei o "useSound" hook, mas, aparentemente ela gera um aviso no console do navegador e não consegui resolver esse problema. Acredito ser algo relacionado a não atrelar a ação de ativação dentro de um handle de algum componente do javascript. Poderiam me ajudar com isso?
 
 ## ENG Version
 
@@ -40,5 +47,11 @@ In our daily routines, we need somethings to do, lost vision of time when need f
 2. CSS; 
 3. React;
 4. Styled Components.
+
+## Requests:
+
+### useSound Hook.
+
+Hello guys, when I developer this project in a rocketseat, I added many of feature, between of them, I used "useSound" hook, but, it generate a warning in a console and I don't know resolve this, I think it related the activation is not a handle function,   can you help to fix this bug?
 
 
