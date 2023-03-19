@@ -30,6 +30,64 @@ export const HistoryTitleHeader = styled.h1`
     margin: auto 0;
 `;
 
+export const HistoryButton = styled.button`
+    
+    width: 160px;
+    border: 0;
+    padding: 1rem;
+    border-radius: 8px;
+  
+    font-weight: bold;
+    cursor: pointer;
+
+    color: ${props => props.theme['gray-100']};
+
+    &:disabled {
+
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+`;
+
+export const HistoryButtonExport = styled(HistoryButton)`
+
+    display: inline-block;
+    margin-right: 10px;
+
+    background: ${props => props.theme['green-700']};
+
+    &:not(:disabled):hover {
+
+      background: ${(props) => props.theme['green-500']}
+    }    
+`;
+
+export const HistoryButtonImport = styled(HistoryButton)`
+
+    display: inline-block;
+    margin-right: 10px;
+
+    background: ${props => props.theme['green-700']};
+
+    &:not(:disabled):hover {
+
+      background: ${(props) => props.theme['green-500']}
+    }
+`
+
+export const HistoryButtonSave = styled(HistoryButton)`
+
+    display: inline-block;
+    margin-right: 10px;
+
+    background: ${props => props.theme['yellow-500']};
+
+    &:not(:disabled):hover {
+
+      background: ${(props) => props.theme['yellow-500']}
+    }
+`
+
 export const HistoryButtonReset = styled.button`
 
     width: 160px;    
@@ -43,7 +101,7 @@ export const HistoryButtonReset = styled.button`
 
     color: ${props => props.theme['gray-100']};
 
-    gap: 0.5rem;
+    margin-left: "20px";
     font-weight: bold;
 
     cursor: pointer;
@@ -60,6 +118,8 @@ export const HistoryButtonReset = styled.button`
 
         background: ${(props) => props.theme['red-700']}
     }
+
+    display: inline-block;
 `
 
 export const HistoryList = styled.div`

@@ -18,7 +18,7 @@ export function ModalConfirmation( {title, message, handleClose, handleSubmit}: 
         <DialogClose onClick={handleClose}>
           <X size={24} aria-label="Fechar" />
         </DialogClose>
-        <DialogTitle>          
+        <DialogTitle>
           {title}
         </DialogTitle>
         
