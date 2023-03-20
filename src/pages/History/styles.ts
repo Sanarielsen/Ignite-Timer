@@ -75,19 +75,6 @@ export const HistoryButtonImport = styled(HistoryButton)`
     }
 `
 
-export const HistoryButtonSave = styled(HistoryButton)`
-
-    display: inline-block;
-    margin-right: 10px;
-
-    background: ${props => props.theme['yellow-500']};
-
-    &:not(:disabled):hover {
-
-      background: ${(props) => props.theme['yellow-500']}
-    }
-`
-
 export const HistoryButtonReset = styled.button`
 
     width: 160px;    

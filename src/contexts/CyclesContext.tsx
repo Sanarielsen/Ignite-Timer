@@ -6,7 +6,7 @@ import alarmSound from '../assets/cycleAlarm.wav'
 import { differenceInSeconds } from 'date-fns';
 
 import { Cycle, CycleState, cyclesReducer } from '../reducers/cycles/reducer';
-import { addNewCycleAction, deleteListOfCyclesAction, interruptCurrentCycleAction, markCurrentCycleAsFinishedAction } from '../reducers/cycles/actions';
+import { addNewCycleAction, deleteListOfCyclesAction, interruptCurrentCycleAction, markCurrentCycleAsFinishedAction, refreshCyclesLoadedAction } from '../reducers/cycles/actions';
 
 interface CreateCycleData {
 
@@ -26,6 +26,7 @@ interface CyclesContextType {
   markCurrentCycleAsFinished: () => void,
   setSecondsPassed: (seconds: number) => void,
   createNewCycle: (data: CreateCycleData) => void,
+  refreshCyclesLoaded: (data: CycleState) => void,
   interruptCurrentCycle: () => void,
   deleteListOfCycles: () => void,
 }
@@ -40,7 +41,7 @@ interface CyclesContextProviderProps {
 export function CyclesContextProvider({ children }: CyclesContextProviderProps) {
   const [cyclesState, dispatch] = useReducer(cyclesReducer, { 
     cycles: [], activeCycleId: null 
-  }, () => {
+  }, () => {  
     if (!Boolean(localStorage.getItem('@Ignite-Timer:cyclesState'))) {           
       const current = {
         cycles: [],
@@ -57,10 +58,10 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
       
       return JSON.parse(storedStateAsJSON)
     }
-  })
+  })  
 
-  const { cycles, activeCycleId } = cyclesState
-  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
+  const { cycles, activeCycleId } = cyclesState  
+  const activeCycle = cycles.find((cycle: Cycle) => cycle.id === activeCycleId)
 
   const [haveFinishedCycle, setHaveFinishedCycle] = useState(false);
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
@@ -89,9 +90,9 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
   const minutes = String(minutesAmount).padStart(2, '0')
   const seconds = String(secondsAmount).padStart(2, '0')
 
-  useEffect(() => {
-    const stateJSON = JSON.stringify(cyclesState)
+  useEffect(() => {    
 
+    const stateJSON = JSON.stringify(cyclesState)    
     localStorage.setItem('@Ignite-Timer:cyclesState', stateJSON)
   }, [cyclesState])  
 
@@ -167,6 +168,11 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
     setAmountSecondsPassed(0)
   }
 
+  function refreshCyclesLoaded(cyclesRefreshed: CycleState) {
+
+    dispatch(refreshCyclesLoadedAction(cyclesRefreshed))
+  }
+
   function interruptCurrentCycle() {
 
     dispatch(interruptCurrentCycleAction());  
@@ -190,6 +196,7 @@ export function CyclesContextProvider({ children }: CyclesContextProviderProps) 
         markCurrentCycleAsFinished,
         setSecondsPassed,
         createNewCycle,
+        refreshCyclesLoaded,
         interruptCurrentCycle,
         deleteListOfCycles,
       }}

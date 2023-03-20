@@ -1,8 +1,11 @@
-import { ButtonNegative, ButtonPositive, DialogClose, DialogContent, DialogBody, DialogOverlay, DialogTitle, DialogBodyActions } from './ModalStyle';
-import { X } from "phosphor-react";
-import { ReactNode } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form"
-import { formatCharacterSet } from '../../utils/formatCharacterSet';
+
+import { X } from "phosphor-react";
+
+import { ButtonPositive, DialogClose, DialogContent, DialogBody, DialogOverlay, DialogTitle, DialogBodyActions } from './ModalStyle';
+import { CyclesContext } from '../../contexts/CyclesContext';
+import { CycleState } from '../../reducers/cycles/reducer';
 
 interface HistoryFile {
 
@@ -19,6 +22,8 @@ interface ModalSubmitProps {
 
 export function ModalFile( { titleModal, titleButton, handleSubmitModal, handleClose }: ModalSubmitProps ) {
 
+  const {refreshCyclesLoaded} = useContext(CyclesContext)
+
   const { register, handleSubmit } = useForm<HistoryFile>();  
 
   function onSubmitFile(data: HistoryFile) {    
@@ -27,7 +32,8 @@ export function ModalFile( { titleModal, titleButton, handleSubmitModal, handleC
     fileReader.onload = (e) => {
       const historyJSON = JSON.stringify(e.target?.result).replace(/\\/g,"").replace('""', "").replace('""', "")      
       localStorage.setItem('@Ignite-Timer:cyclesState', historyJSON)
-
+      const cycleState: CycleState = JSON.parse(historyJSON)
+      refreshCyclesLoaded(cycleState)
       handleSubmitModal()
     };
   }
