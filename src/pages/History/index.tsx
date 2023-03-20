@@ -2,7 +2,10 @@ import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react"
 
 import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
+  HistoryButtonExport,
+  HistoryButtonImport,
   HistoryButtonReset, 
+  HistoryButtonSave, 
   HistoryContainer, 
   HistoryContainerHeader, 
   HistoryList, 
@@ -14,6 +17,9 @@ import { ModalConfirmation } from "../../components/Modal/ModalConfirmation";
 import { ModalStructure } from "../../components/Modal/ModalStructure";
 import { HistoryData } from "./components/HistoryData";
 import { Cycle } from "../../reducers/cycles/reducer";
+import { format } from "date-fns"
+import { formatCharacterSet } from "../../utils/formatCharacterSet"
+import { ModalFile } from "../../components/Modal/ModalFile";
 
 const headerHistoryList = [
 
@@ -26,7 +32,8 @@ const headerHistoryList = [
 export function History() {
   const { cycles, deleteListOfCycles } = useContext(CyclesContext)   
 
-  const ref = useRef<HTMLButtonElement>(null);    
+  const ref = useRef<HTMLButtonElement>(null);  
+  const refModalFile = useRef<HTMLButtonElement>(null);
   const refPanel = useRef<HTMLDivElement>(document.createElement("div"));
   const refTable = useRef<HTMLTableElement>(document.createElement("table"));
   const refTableHeader = useRef<HTMLTableSectionElement>(document.createElement("thead"));
@@ -40,6 +47,7 @@ export function History() {
   const [currentPage, setCurrentPage] = useState(1)
   const [cellTableHeight, setCellTableHeight] = useState(0)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
+  const [modalFile, setModalFile] = useState<boolean>(false)
 
   const haveCycles = cycles.length;
 
@@ -90,27 +98,69 @@ export function History() {
     setCyclesLoaded([])
   }
 
+  function handleHistorySave() {
+    
+    const fileName = "History_" + formatCharacterSet(format(new Date(), "yyyy-MM-dd HH:mm:ss"), ["-", ":", " "], "_")
+    const jsonHistoryData = JSON.stringify(localStorage.getItem('@Ignite-Timer:cyclesState'));
+    const fileBlob = new Blob([jsonHistoryData], { type: "text/plain" });
+    const url = URL.createObjectURL(fileBlob);
+    const link = document.createElement('a');
+    link.download = `${fileName}.json`
+    link.href = url;
+    link.click();
+  }  
+
   return (
         
     <HistoryContainer>        
       <HistoryContainerHeader>
-        <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>
-        
-        <ModalStructure open={openModalConfirm} handleOpenChange={setOpenModalConfirm} ref={ref}>
-          <HistoryButtonReset                                             
+        <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>      
+
+        <div>
+          <HistoryButtonExport onClick={handleHistorySave} disabled={!(haveCycles > 0)} >
+            Export History
+          </HistoryButtonExport>
+
+          <ModalStructure 
+            open={modalFile} 
+            handleOpenChange={setModalFile}
+            ref={refModalFile}           
+          >
+            <HistoryButtonImport
+              type="button"
+              onClick={() => setModalFile(true)}               
+            >
+              Import History
+            </HistoryButtonImport>
+            <ModalFile              
+              titleModal="Importar Histórico"
+              titleButton="Enviar Histórico"
+              handleSubmitModal={() => console.log("Enviado")}
+              handleClose={() => setModalFile(false)}
+            />
+          </ModalStructure>
+
+          <ModalStructure 
+            open={openModalConfirm} 
+            handleOpenChange={setOpenModalConfirm} 
+            ref={ref}
+          >
+            <HistoryButtonReset                                             
               type="button"
               disabled={!(haveCycles > 0)}
               onClick={() => setOpenModalConfirm(true)}                     
-          >
-            Reset History
-          </HistoryButtonReset>
-          <ModalConfirmation            
-            title="Excluir histórico" 
-            message="Tem certeza que gostaria de apagar seu histórico? Essa operação é irreversivel" 
-            handleClose={() => setOpenModalConfirm(false)}
-            handleSubmit={() => handleCyclesRemove()}
-          />
-        </ModalStructure>
+            >
+              Reset History
+            </HistoryButtonReset>
+            <ModalConfirmation            
+              title="Excluir histórico" 
+              message="Tem certeza que gostaria de apagar seu histórico? Essa operação é irreversivel" 
+              handleClose={() => setOpenModalConfirm(false)}
+              handleSubmit={() => handleCyclesRemove()}
+            />
+          </ModalStructure>
+
+        </div>
       </HistoryContainerHeader>      
             
       <HistoryList className={scrollName} ref={refPanel}>        
