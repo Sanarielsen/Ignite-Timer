@@ -4,8 +4,7 @@ import { CyclesContext } from "../../contexts/CyclesContext";
 import { 
   HistoryButtonExport,
   HistoryButtonImport,
-  HistoryButtonReset, 
-  HistoryButtonSave, 
+  HistoryButtonReset,   
   HistoryContainer, 
   HistoryContainerHeader, 
   HistoryList, 
@@ -30,7 +29,7 @@ const headerHistoryList = [
 ]
 
 export function History() {
-  const { cycles, deleteListOfCycles } = useContext(CyclesContext)   
+  const { cycles, deleteListOfCycles } = useContext(CyclesContext) 
 
   const ref = useRef<HTMLButtonElement>(null);  
   const refModalFile = useRef<HTMLButtonElement>(null);
@@ -50,6 +49,11 @@ export function History() {
   const [modalFile, setModalFile] = useState<boolean>(false)
 
   const haveCycles = cycles.length;
+
+  useEffect(() => {
+
+    setCyclesLoaded(cycles)
+  }, [cycles])
 
   useLayoutEffect( () => {
     
@@ -98,7 +102,7 @@ export function History() {
     setCyclesLoaded([])
   }
 
-  function handleHistorySave() {
+  function handleHistorySaved() {
     
     const fileName = "History_" + formatCharacterSet(format(new Date(), "yyyy-MM-dd HH:mm:ss"), ["-", ":", " "], "_")
     const jsonHistoryData = JSON.stringify(localStorage.getItem('@Ignite-Timer:cyclesState'));
@@ -108,7 +112,7 @@ export function History() {
     link.download = `${fileName}.json`
     link.href = url;
     link.click();
-  }  
+  } 
 
   return (
         
@@ -117,7 +121,7 @@ export function History() {
         <HistoryTitleHeader> Meu histórico </HistoryTitleHeader>      
 
         <div>
-          <HistoryButtonExport onClick={handleHistorySave} disabled={!(haveCycles > 0)} >
+          <HistoryButtonExport onClick={handleHistorySaved} disabled={!(haveCycles > 0)} >
             Export History
           </HistoryButtonExport>
 
@@ -135,7 +139,7 @@ export function History() {
             <ModalFile              
               titleModal="Importar Histórico"
               titleButton="Enviar Histórico"
-              handleSubmitModal={() => console.log("Enviado")}
+              handleSubmitModal={() => setModalFile(false)}
               handleClose={() => setModalFile(false)}
             />
           </ModalStructure>
