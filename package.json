@@ -12,6 +12,8 @@
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
     "@radix-ui/react-dialog": "^1.0.2",
+    "@radix-ui/react-form": "^0.0.2",
+    "@radix-ui/react-switch": "^1.0.2",
     "date-fns": "^2.29.3",
     "immer": "^9.0.19",
     "phosphor-react": "^1.4.1",

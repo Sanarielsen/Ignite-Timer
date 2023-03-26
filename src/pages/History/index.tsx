@@ -114,6 +114,13 @@ export function History() {
     link.click();
   } 
 
+  function handleHistoryLoaded(responseCycles: string) {
+
+    console.log("handleHistoryLoaded("+ responseCycles +")")
+    setModalFile(false);
+    
+  }
+
   return (
         
     <HistoryContainer>        
@@ -122,7 +129,7 @@ export function History() {
 
         <div>
           <HistoryButtonExport onClick={handleHistorySaved} disabled={!(haveCycles > 0)} >
-            Export History
+            Export
           </HistoryButtonExport>
 
           <ModalStructure 
@@ -134,12 +141,12 @@ export function History() {
               type="button"
               onClick={() => setModalFile(true)}               
             >
-              Import History
+              Import
             </HistoryButtonImport>
             <ModalFile              
               titleModal="Importar Histórico"
               titleButton="Enviar Histórico"
-              handleSubmitModal={() => setModalFile(false)}
+              handleSubmitModal={(responseCycles) => handleHistoryLoaded(responseCycles)}
               handleClose={() => setModalFile(false)}
             />
           </ModalStructure>
@@ -154,7 +161,7 @@ export function History() {
               disabled={!(haveCycles > 0)}
               onClick={() => setOpenModalConfirm(true)}                     
             >
-              Reset History
+              Reset
             </HistoryButtonReset>
             <ModalConfirmation            
               title="Excluir histórico" 
