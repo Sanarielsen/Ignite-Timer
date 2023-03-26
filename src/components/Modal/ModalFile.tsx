@@ -5,7 +5,7 @@ import { X } from "phosphor-react";
 
 import { ButtonPositive, DialogClose, DialogContent, DialogBody, DialogOverlay, DialogTitle, DialogBodyActions } from './ModalStyle';
 import { CyclesContext } from '../../contexts/CyclesContext';
-import { CycleState } from '../../reducers/cycles/reducer';
+import { InputFile, SwitchLabel, SwitchRoot, SwitchThumb } from "./styles";
 
 interface HistoryFile {
 
@@ -16,7 +16,7 @@ interface ModalSubmitProps {
 
   titleModal: string;
   titleButton: string;  
-  handleSubmitModal: () => void;
+  handleSubmitModal: ( responseCycles: string ) => void;
   handleClose: () => void;
 }
 
@@ -30,11 +30,13 @@ export function ModalFile( { titleModal, titleButton, handleSubmitModal, handleC
     const fileReader = new FileReader();
     fileReader.readAsText(data.file[0]);
     fileReader.onload = (e) => {
-      const historyJSON = JSON.stringify(e.target?.result).replace(/\\/g,"").replace('""', "").replace('""', "")      
-      localStorage.setItem('@Ignite-Timer:cyclesState', historyJSON)
-      const cycleState: CycleState = JSON.parse(historyJSON)
-      refreshCyclesLoaded(cycleState)
-      handleSubmitModal()
+      const historyJSON = JSON.stringify(e.target?.result).replace(/\\/g,"").replace('""', "").replace('""', "")
+      handleSubmitModal(historyJSON)
+
+      // localStorage.setItem('@Ignite-Timer:cyclesState', historyJSON)
+      // const cycleState: CycleState = JSON.parse(historyJSON)
+      // refreshCyclesLoaded(cycleState)
+      // handleSubmitModal()
     };
   }
 
@@ -50,11 +52,17 @@ export function ModalFile( { titleModal, titleButton, handleSubmitModal, handleC
             {titleModal}
           </DialogTitle>
           <DialogBody>
-
-            <input 
+          
+            <InputFile 
               type="file"
+              required
               {...register("file")}
             />
+
+            <SwitchLabel> Subscrever registros atuais? </SwitchLabel>
+            <SwitchRoot id="undersignToggle">
+              <SwitchThumb />
+            </SwitchRoot>
 
           </DialogBody>
           <DialogBodyActions>
