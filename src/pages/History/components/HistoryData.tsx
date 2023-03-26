@@ -1,14 +1,14 @@
 import { formatDistanceToNow } from "date-fns"
-import { Cycle } from "../../../reducers/cycles/reducer"
+import { Cycle, CycleState } from "../../../reducers/cycles/reducer"
 import { ptBR } from "date-fns/locale"
 import { Status } from "../styles"
-import { MutableRefObject, RefObject, useRef } from "react";
+import { MutableRefObject, RefObject, useRef, useState } from "react";
 
 interface HistoryDataProps {
   cycle: Cycle;
 }
 
-export function HistoryData( { cycle }: HistoryDataProps ) {  
+export function HistoryData( { cycle }: HistoryDataProps ) {
 
   return (
     <>       
