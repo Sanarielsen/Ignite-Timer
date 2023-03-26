@@ -115,10 +115,8 @@ export function History() {
   } 
 
   function handleHistoryLoaded(responseCycles: string) {
-
-    console.log("handleHistoryLoaded("+ responseCycles +")")
-    setModalFile(false);
     
+    setModalFile(false);    
   }
 
   return (
