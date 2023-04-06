@@ -1,4 +1,5 @@
 import { Cycle, CycleState } from "../reducers/cycles/reducer"
+import { compareCycleStartedDate } from "./compareCycleStartedDate"
 
 export function concatCyclesJSON(jsonInitial: string, jsonAdicional: string) {
 
@@ -14,14 +15,14 @@ export function concatCyclesJSON(jsonInitial: string, jsonAdicional: string) {
       uniqueIdentifiers += cycles[i].id + " ";
       uniqueCycles.push(cycles[i])
     }
-  }
-  
-  console.log(uniqueCycles)
-  
+  }  
+
   const cycleState: CycleState = {
 
     cycles: uniqueCycles,
     activeCycleId: null
-  }  
+  }
+  cycleState.cycles.sort( compareCycleStartedDate )
+
   return JSON.stringify(cycleState).trim()  
  }

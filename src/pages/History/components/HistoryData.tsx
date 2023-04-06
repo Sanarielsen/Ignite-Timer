@@ -10,8 +10,6 @@ interface HistoryDataProps {
 
 export function HistoryData( { cycle }: HistoryDataProps ) {
 
-
-
   return (
     <>       
       <tr className="cycle">

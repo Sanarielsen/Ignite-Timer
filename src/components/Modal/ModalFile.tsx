@@ -55,14 +55,14 @@ export function ModalFile( { titleModal, titleButton, handleSubmitModal, handleC
       const historyJSON = JSON.stringify(e.target?.result).replace(/\\/g,"").replace('""', "").replace('""', "")      
       if (!data.undersign && haveCycles) {
         const storagedCycles = localStorage.getItem('@Ignite-Timer:cyclesState')
-        const uniqueCycles = concatCyclesJSON(historyJSON, storagedCycles!)           
-        // localStorage.setItem('@Ignite-Timer:cyclesState', uniqueCycles)
+        const uniqueCycles = concatCyclesJSON(historyJSON, storagedCycles!)    
+        localStorage.setItem('@Ignite-Timer:cyclesState', uniqueCycles)
       } else {
-        // localStorage.setItem('@Ignite-Timer:cyclesState', historyJSON)
+        localStorage.setItem('@Ignite-Timer:cyclesState', historyJSON)
       }    
-      // const cycleState: CycleState = JSON.parse(localStorage.getItem('@Ignite-Timer:cyclesState')!)
-      // refreshCyclesLoaded(cycleState)
-      // handleSubmitModal(historyJSON)
+      const cycleState: CycleState = JSON.parse(localStorage.getItem('@Ignite-Timer:cyclesState')!)
+      refreshCyclesLoaded(cycleState)
+      handleSubmitModal(historyJSON)
     };
   }
 
