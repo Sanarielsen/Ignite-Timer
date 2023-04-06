@@ -16,11 +16,13 @@ export function concatCyclesJSON(jsonInitial: string, jsonAdicional: string) {
       uniqueCycles.push(cycles[i])
     }
   }  
+
   const cycleState: CycleState = {
 
     cycles: uniqueCycles,
     activeCycleId: null
   }
   cycleState.cycles.sort( compareCycleStartedDate )
+
   return JSON.stringify(cycleState).trim()  
  }

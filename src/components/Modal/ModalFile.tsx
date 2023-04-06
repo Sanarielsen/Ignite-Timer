@@ -15,8 +15,7 @@ interface HistoryFile {
   undersign: string;
 }
 
-
-const Switch = (props: any) => (
+const Switch = (props) => (
 
   <Controller
     {...props}
