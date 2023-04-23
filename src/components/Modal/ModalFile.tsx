@@ -1,4 +1,4 @@
-import { ReactElement, useContext } from "react";
+import { ComponentProps, ReactElement, useContext } from "react";
 import { useForm, Controller, Control } from "react-hook-form";
 
 import { X } from "phosphor-react";
@@ -15,7 +15,7 @@ interface HistoryFile {
   undersign: string;
 }
 
-const Switch = (props) => (
+const Switch = (props: ComponentProps<typeof Controller>) => (
 
   <Controller
     {...props}
